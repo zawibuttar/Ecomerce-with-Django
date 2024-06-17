@@ -1,30 +1,229 @@
 {% extends "base/base.html"%}
+{% block cartcount %} {{ count }} {% endblock %}
+{% block start %}
+<style>
+  .mask-custom-1 {
+    backdrop-filter: blur(15px);
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3em;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background-clip: padding-box;
+    box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+  }
 
-{%  block start %}
-
-
+  @media (max-width: 767px) {
+    .bg-image {
+      height: 1400px !important;
+    }
+  }
+</style>
 <div class="container mt-5 pt-5">
-    <div class="row">
-
-        {% for product in products %}
-        <div class="col-md-3">
-            <figure class="card card-product-grid">
-                <div class="img-wrap"> <img src="/media/{{product.product_images.first.image}}"> </div>
-                <figcaption class="info-wrap border-top">
-                    <a href="{% url 'get_product' product.slug %}" class="title">
-                        <b>{{product.product_name}}</b></a>
-                    <div class="price mt-2">${{product.price}}.00</div> <!-- price-wrap.// -->
-                </figcaption>
-            </figure> <!-- card // -->
-        </div> <!-- col.// -->
-
-        {% endfor %}
-
-
-
+  <div class="row">
+    {% for product in products %}
+    <div class="col-md-3">
+      <figure class="card card-product-grid">
+        <div class="img-wrap">
+          <img src="/media/{{product.product_images.first.image}}" />
+        </div>
+        <figcaption class="info-wrap border-top">
+          <a href="{% url 'get_product' product.slug %}" class="title">
+            <b>{{product.product_name}}</b></a
+          >
+          <div class="price mt-2">Rs.{{product.price}}.00</div>
+          <!-- price-wrap.// -->
+        </figcaption>
+      </figure>
+      <!-- card // -->
     </div>
+    <!-- col.// -->
 
+    {% endfor %}
+  </div>
+  <hr class="my-5">
+</div>
+
+<section>
+
+  <div
+    class="bg-image"
+    style="
+      /* background-image: url(https://mdbootstrap.com/img/Photos/new-templates/glassmorphism-article/img5.jpg); */
+background-image: linear-gradient(to bottom, #fdfdfd, #d3d3d3, #aaaaab, #828385, #5d5e60, #515559, #444c51, #374349, #3b5259, #3e6167, #417073, #46807d);
+      /* height: 700px; */
+    "
+  >
+    <div class="mask d-flex align-items-center h-100">
+      <div class="container">
+        <div class="row justify-content-center text-center">
+          <div class="col-md-4 mb-4 mb-md-0">
+            <div class="card mask-custom-1 py-5 text-white">
+              <div class="card-body">
+                <img
+                  class="rounded-circle shadow-2-strong mb-5"
+                  src="https://mdbootstrap.com/img/Photos/Avatars/img%20(4).jpg"
+                  alt="avatar"
+                  style="width: 100px"
+                  data-mdb-toggle="animation"
+                  data-mdb-animation-start="onLoad"
+                  data-mdb-animation="slide-in-left"
+                  data-mdb-animation-duration="1000"
+                  data-mdb-animation-delay="200"
+                />
+                <h5
+                  class="mb-4"
+                  data-mdb-toggle="animation"
+                  data-mdb-animation-start="onLoad"
+                  data-mdb-animation="slide-in-left"
+                  data-mdb-animation-duration="1000"
+                  data-mdb-animation-delay="300"
+                >
+                  Veronica Smith
+                </h5>
+                <p
+                  class="mb-4"
+                  data-mdb-toggle="animation"
+                  data-mdb-animation-start="onLoad"
+                  data-mdb-animation="slide-in-left"
+                  data-mdb-animation-duration="1000"
+                  data-mdb-animation-delay="400"
+                >
+                  Backend Developer
+                </p>
+                <ul
+                  class="list-unstyled mb-0"
+                  data-mdb-toggle="animation"
+                  data-mdb-animation-start="onLoad"
+                  data-mdb-animation="slide-in-left"
+                  data-mdb-animation-duration="1000"
+                  data-mdb-animation-delay="500"
+                >
+                  <a href="#!" class="px-1">
+                    <i class="fab fa-github text-white"></i>
+                  </a>
+                  <a href="#!" class="px-1">
+                    <i class="fab fa-twitter text-white"></i>
+                  </a>
+                  <a href="#!" class="px-1">
+                    <i class="fab fa-linkedin-in text-white"></i>
+                  </a>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4 mb-md-0">
+            <div class="card mask-custom-1 py-5 text-white">
+              <div class="card-body">
+                <img
+                  class="rounded-circle shadow-2-strong mb-5"
+                  src="https://mdbootstrap.com/img/Photos/Avatars/img%20(32).jpg"
+                  alt="avatar"
+                  style="width: 100px"
+                  data-mdb-toggle="animation"
+                  data-mdb-animation-start="onLoad"
+                  data-mdb-animation="slide-in-left"
+                  data-mdb-animation-duration="1000"
+                  data-mdb-animation-delay="200"
+                />
+                <h5
+                  class="mb-4"
+                  data-mdb-toggle="animation"
+                  data-mdb-animation-start="onLoad"
+                  data-mdb-animation="slide-in-left"
+                  data-mdb-animation-duration="1000"
+                  data-mdb-animation-delay="300"
+                >
+                  Ibrar ul Hassan
+                </h5>
+                <p
+                  class="mb-4"
+                  data-mdb-toggle="animation"
+                  data-mdb-animation-start="onLoad"
+                  data-mdb-animation="slide-in-left"
+                  data-mdb-animation-duration="1000"
+                  data-mdb-animation-delay="400"
+                >
+                  Full Stack Developer
+                </p>
+                <ul
+                  class="list-unstyled mb-0"
+                  data-mdb-toggle="animation"
+                  data-mdb-animation-start="onLoad"
+                  data-mdb-animation="slide-in-left"
+                  data-mdb-animation-duration="1000"
+                  data-mdb-animation-delay="500"
+                >
+                  <a href="#!" class="px-1">
+                    <i class="fab fa-facebook-f text-white"></i>
+                  </a>
+                  <a href="#!" class="px-1">
+                    <i class="fab fa-twitter text-white"></i>
+                  </a>
+                  <a href="#!" class="px-1">
+                    <i class="fab fa-linkedin-in text-white"></i>
+                  </a>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-0">
+            <div class="card mask-custom-1 py-5 text-white">
+              <div class="card-body">
+                <img
+                  class="rounded-circle shadow-2-strong mb-5"
+                  src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
+                  alt="avatar"
+                  style="width: 100px"
+                  data-mdb-toggle="animation"
+                  data-mdb-animation-start="onLoad"
+                  data-mdb-animation="slide-in-left"
+                  data-mdb-animation-duration="1000"
+                  data-mdb-animation-delay="200"
+                />
+                <h5
+                  class="mb-4"
+                  data-mdb-toggle="animation"
+                  data-mdb-animation-start="onLoad"
+                  data-mdb-animation="slide-in-left"
+                  data-mdb-animation-duration="1000"
+                  data-mdb-animation-delay="300"
+                >
+                  Emma Lovelace
+                </h5>
+                <p
+                  class="mb-4"
+                  data-mdb-toggle="animation"
+                  data-mdb-animation-start="onLoad"
+                  data-mdb-animation="slide-in-left"
+                  data-mdb-animation-duration="1000"
+                  data-mdb-animation-delay="400"
+                >
+                  Web Designer
+                </p>
+                <ul
+                  class="list-unstyled mb-0"
+                  data-mdb-toggle="animation"
+                  data-mdb-animation-start="onLoad"
+                  data-mdb-animation="slide-in-left"
+                  data-mdb-animation-duration="1000"
+                  data-mdb-animation-delay="500"
+                >
+                  <a href="#!" class="px-1">
+                    <i class="fab fa-dribbble text-white"></i>
+                  </a>
+                  <a href="#!" class="px-1">
+                    <i class="fab fa-linkedin-in text-white"></i>
+                  </a>
+                  <a href="#!" class="px-1">
+                    <i class="fab fa-instagram text-white"></i>
+                  </a>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
+  </div>
+</section>
 
 {% endblock %}

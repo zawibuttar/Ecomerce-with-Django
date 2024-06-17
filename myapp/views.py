@@ -1,8 +1,30 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect, HttpResponse
 from myapp.models import product
+from accounts.models import Add_To_Cart,ShoppingCart
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+import json
+
+
+
+
+
 
 def get_products(request,slug):
     obj=product.objects.get(slug=slug)
+    context = {'product': obj}
+    if request.user.is_authenticated:
+      cart_items=ShoppingCart.objects.filter(user=request.user)
+      cart_item_count= cart_items.count()
+      context['count']=cart_item_count
+    else:
+        context['count'] = 0
 
-    return render(request,'product/products.html',{'product':obj})
-# Create your views here.
+    if request.GET.get('size'):
+        size=request.GET.get('size')
+        context['selected_size']=size
+        updated_price = obj.price_calulate_size(size=size)
+        context['updated_price']=updated_price
+    return render(request,'product/products.html',context=context)
+
+

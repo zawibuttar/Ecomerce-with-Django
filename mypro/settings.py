@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'myapp', #productapp
     'accounts',
     'home',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -128,7 +129,7 @@ STATICFILES_DIR = {
     os.path.join(BASE_DIR , "public/static")
 }
 
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'public/static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public/static')
 MEDIA_URL = '/media/'
 
 # Default primary key field type
@@ -136,6 +137,7 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL='account/login/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
