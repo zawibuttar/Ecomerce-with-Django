@@ -28,27 +28,28 @@ class ShoppingCart(BaseModel):
     coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL, null=True, blank=True)
     is_paid=models.BooleanField(default=False)
     def __str__(self):
-        return str(self.user)
+        return f"{self.user}'s Cart"
 
-    # def get_cart_total(self):
-    #    cart_items = self.cart_items.all()
-    #
-    #    price = []
-    #    for cart_item in cart_items:
-    #     price.append(cart_item.product.price)
-    #     if cart_item.color_variant:
-    #      color_variant_price = cart_item.color_variant.price
-    #      price.append(color_variant_price)
-    #     if cart_item.size_variant:
-    #      size_variant_price = cart_item.size_variant.price
-    #      price.append(size_variant_price)
-    #    return sum(price)
+    def get_cart_total(self):
+       cart_items = self.addtocart.all()
 
-    def total_items_price(self):
-        return sum(item.total_price() for item in self.addtocart.all())
+       price = []
+       for cart_item in cart_items:
+         print(cart_item.product.price)
+         print(cart_item.quantity)
+         print(cart_item.item_price)
+         price.append(cart_item.item_price*cart_item.quantity)
+
+       if self.coupon:
+           if self.coupon.minimum_amount< sum(price):
+               return sum(price)-self.coupon.discount_price
+       return sum(price)
+
+
+    # def total_items_price(self):
+    #     return sum(item.total_price() for item in self.addtocart.all())
 
 class Add_To_Cart(BaseModel):
-     # user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='addcart')
      product=models.ForeignKey(product, on_delete=models.CASCADE)
      shopping_cart = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE,related_name="addtocart")
      selected_size=models.CharField(max_length=30)
@@ -58,10 +59,22 @@ class Add_To_Cart(BaseModel):
      def total_price(self):
          return self.item_price * self.quantity
      def __str__(self):
-        return self.product.product_name
+        return f"{self.product.product_name}'s in ADD_to_Cart"
 
-
-# class Cart(BaseModel):
-#     user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='carts')
-#     coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL, null=True, blank=True)
-#     is_paid=models.BooleanField(default=False)
+#
+# class OrderPlaced(BaseModel):
+#     order=models.OneToOneField(ShoppingCart,on_delete=models.CASCADE)
+#     customer = models.ForeignKey(User, on_delete=models.CASCADE)
+#     order_number = models.CharField(max_length=100, unique=True)
+#     total_amount=models.FloatField()
+#     Is_order_delivered=models.BooleanField(default=False)
+#
+#     def save(self, *args, **kwargs):
+#          if not self.order_number:
+#             last_order = OrderPlaced.objects.order_by('-order_id').first()
+#             last_order_number = int(last_order.order_number) if last_order else 20099
+#             self.order_number = str(last_order_number + 1)
+#          super(OrderPlaced, self).save(*args, **kwargs)
+#
+#     def __str__(self):
+#         return f"Order {self.order_number} by {self.customer.username}"

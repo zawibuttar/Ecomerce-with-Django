@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'myapp', #productapp
     'accounts',
     'home',
+    'orders',
     'rest_framework',
 ]
 
@@ -145,3 +146,6 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'uaemarketplace12@gmail.com'
 EMAIL_HOST_PASSWORD = 'flktpcxzusmpvcxa'
+
+
+

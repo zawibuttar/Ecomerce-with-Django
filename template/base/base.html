@@ -8,27 +8,18 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-
-    <title>Website title - bootstrap html template</title>
-
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    <title>{% block Title %}  {% endblock %}</title>
+    <link rel="icon" href="/media/images/logos/logo.png" type="image/x-icon">
 
     <!-- jQuery -->
     <script src="/media/js/jquery-2.0.0.min.js" type="text/javascript"></script>
 
     <!-- Bootstrap4 files-->
-    <script
-      src="/media/js/bootstrap.bundle.min.js"
-      type="text/javascript"
-    ></script>
+    <script src="/media/js/bootstrap.bundle.min.js" type="text/javascript"></script>
     <link href="/media/css/bootstrap.css" rel="stylesheet" type="text/css" />
 
     <!-- Font awesome 5 -->
-    <link
-      href="/media/fonts/fontawesome/css/all.min.css"
-      type="text/css"
-      rel="stylesheet"
-    />
+    <link href="/media/fonts/fontawesome/css/all.min.css" type="text/css" rel="stylesheet" />
 
     <!-- custom style -->
     <link href="/media/css/ui.css" rel="stylesheet" type="text/css" />
@@ -38,14 +29,52 @@
     <script src="/media/js/script.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-      /// some script
+      // Function to convert text to slug
+      function convertToSlug(text) {
+          return text.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
+      }
 
-      // jquery ready start
-      $(document).ready(function () {
-        // jQuery code
+      // Function to handle form submission
+      function handleFormSubmit(event) {
+          event.preventDefault();
+          const textInput = document.getElementById('text-input').value;
+          const slug = convertToSlug(textInput);
+          const form = document.getElementById('search-form');
+          form.action = slug ? `/search/${slug}/` : '/search/';
+          form.submit();
+      }
+
+      // Attach event listener to form submission
+      document.addEventListener('DOMContentLoaded', function () {
+          const form = document.getElementById('search-form');
+          form.addEventListener('submit', handleFormSubmit);
       });
-      // jquery end
+
+      // Toggle profile card visibility
+      function toggleProfileCard() {
+          const profileCard = document.getElementById('profile-card');
+          profileCard.classList.toggle('d-none');
+      }
+
+      // jQuery ready start
+      $(document).ready(function () {
+          $('.profile-icon').on('click', function (e) {
+              e.preventDefault();
+              toggleProfileCard();
+          });
+      });
+      // jQuery end
     </script>
+    <style>
+      #profile-card {
+        position: absolute;
+        top:0px;
+
+        right: 50px; /* Adjust as needed */
+        z-index: 100;
+        width: 50%; /* Adjust as needed */
+      }
+    </style>
   </head>
   <body>
     <header class="section-header">
@@ -55,7 +84,7 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'index' %}">Home</a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="#">Delivery</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'order' %}">Delivery</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Payment</a></li>
           </ul>
           <ul class="navbar-nav">
@@ -63,47 +92,28 @@
               <a href="#" class="nav-link"> Call: +923443310252 </a>
             </li>
             <li class="nav-item dropdown">
-              <a
-                href="#"
-                class="nav-link dropdown-toggle"
-                data-toggle="dropdown"
-              >
-                English
-              </a>
-              <ul
-                class="dropdown-menu dropdown-menu-right"
-                style="max-width: 100px"
-              >
+              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">English</a>
+              <ul class="dropdown-menu dropdown-menu-right" style="max-width: 100px">
                 <li><a class="dropdown-item" href="#">Arabic</a></li>
                 <li><a class="dropdown-item" href="#">Russian </a></li>
               </ul>
             </li>
           </ul>
-          <!-- list-inline //  -->
         </div>
-        <!-- navbar-collapse .// -->
-        <!-- container //  -->
       </nav>
-      <!-- header-top-light.// -->
 
       <section class="header-main border-bottom">
         <div class="container">
           <div class="row align-items-center">
             <div class="col-lg-2 col-4">
               <div class="brand-wrap">
-               <img class="logo" src="/media/images/logos/logo.png" />
-<!--                //missing-->
+                <img class="logo" src="/media/images/logos/logo.png" />
               </div>
-              <!-- brand-wrap.// -->
             </div>
             <div class="col-lg-6 col-sm-12">
-              <form action="#" class="search">
+              <form method="get" class="search" id="search-form">
                 <div class="input-group w-100">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Search"
-                  />
+                  <input type="text" id="text-input" class="form-control" placeholder="Search" />
                   <div class="input-group-append">
                     <button class="btn btn-primary" type="submit">
                       <i class="fa fa-search"></i>
@@ -111,21 +121,19 @@
                   </div>
                 </div>
               </form>
-              <!-- search-wrap .end// -->
             </div>
-            <!-- col.// -->
             <div class="col-lg-4 col-sm-6 col-8">
               <div class="widgets-wrap float-md-right">
                 <div class="widget-header mr-3">
                   <a href="{% url "cart" %}" class="icon icon-sm rounded-circle border">
-                    <i class="fa fa-shopping-cart"></i
-                  ></a>
-                  <span class="badge badge-pill badge-danger notify">{% block cartcount %} {% endblock %}</span>
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                  <span class="badge badge-pill badge-danger notify">{% block cartcount %}{% endblock %}</span>
                 </div>
                 <div class="widget-header icontext">
-                  <a href="#" class="icon icon-sm rounded-circle border"
-                    ><i class="fa fa-user"></i
-                  ></a>
+                  <a href="#" class="icon icon-sm rounded-circle border profile-icon">
+                    <i class="fa fa-user"></i>
+                  </a>
                   <div class="text">
                     <span class="text-muted">Welcome!</span>
                     <div>
@@ -135,17 +143,66 @@
                   </div>
                 </div>
               </div>
-              <!-- widgets-wrap.// -->
             </div>
-            <!-- col.// -->
           </div>
-          <!-- row.// -->
         </div>
-        <!-- container.// -->
       </section>
-      <!-- header-main .// -->
     </header>
 
-    {% block start %} {% endblock %}
+    <div id="profile-card" class="d-none" >
+
+      <section class="vh-100" >
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100" >
+            <div class="col-md-12 col-xl-4">
+              <div class="card" style="border-radius: 20px;background-image: linear-gradient(to bottom, #f9f9f9, #b4b4b4, #747474, #3a3a3a, #000000);">
+                <div class="card-body text-center">
+                  <div class="mt-3 mb-4">
+                    <img src="{{ request.user.profile.profile_image.url }}"
+                      class="rounded-circle img-fluid" style="width: 100px;" />
+                  </div>
+                  <h5
+                  style="color:white;"
+                >
+                  {{ request.user.first_name }} {{ request.user.last_name }}
+                </h5>
+                  <hr class="my-2" style="border-color:white;">
+
+                  <p class="text-muted mb-4">@Programmer <span class="mx-2">|</span> <a href="#!">mdbootstrap.com</a></p>
+                  <div class="mb-4 pb-2">
+                    <button type="button" class="btn btn-outline-primary btn-floating">
+                      <i class="fab fa-facebook-f fa-lg"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary btn-floating">
+                      <i class="fab fa-twitter fa-lg"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary btn-floating">
+                      <i class="fab fa-skype fa-lg"></i>
+                    </button>
+                  </div>
+                  <a href="/accounts/logout/"><button type="button" class="btn btn-primary btn-rounded btn-lg">
+                    logout
+                  </button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    {% block start %}{% endblock %}
   </body>
+  <footer class="text-center text-white fixed-bottom" style="background-image: linear-gradient(to bottom, #46807d, #457376, #45656c, #455860, #444c51);">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2020 Copyright:
+      <a class="text-white" href="https://mdbootstrap.com/">Mystore.com</a>
+    </div>
+  </footer>
+
+  <style>
+    body {
+      margin-bottom: 60px; /* Adjust this value based on footer height */
+    }
+  </style>
 </html>
