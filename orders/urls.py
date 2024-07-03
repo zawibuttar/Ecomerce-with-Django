@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import order,BuySingleProduct
+from .views import order,BuySingleProduct,ViewOrderdetails
 urlpatterns = [
   path('history/',order,name='order'),
+# path("renderr/",renderr,name="renderr"),
   path('BuySingleProduct/',BuySingleProduct,name='buy_single_product'),
+  path('order-details/orders/<str:cart_id>/',ViewOrderdetails,name='view_order_details'),
 ]
 

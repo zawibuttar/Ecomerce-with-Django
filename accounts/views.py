@@ -238,8 +238,10 @@ def remove_coupon(request,cart_id):
 
 
 
-from decimal import Decimal
 
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.conf import settings
 @csrf_exempt
 @api_view(['POST'])
 def initiate_payment(request):
@@ -260,9 +262,30 @@ def initiate_payment(request):
         obj.is_paid=True
         obj.save()
         obj_order=OrderPlaced.objects.create(customer=request.user,total_amount=amount,order=obj)
-        print(obj_order.order_number)
+        # addCartobject = Add_To_Cart.objects.filter(shopping_cart=obj_order.order)
+        # print("context upper",obj_order.order_number,addCartobject)
+        # context = {
+        #     'order': obj_order,
+        #     'cart': addCartobject,
+        #     'count': addCartobject.count(),
+        #     'Cart': obj_order.order,
+        # }
+        # print("context",context)
 
-        return Response({'status': 'success',} ,status=status.HTTP_200_OK)
+        # html_content = render_to_string('order/order_invoice_email.html', context)
+
+        # email = EmailMultiAlternatives(
+        #     subject=f"Order Invoice: {obj_order.order_number}",
+        #     body=html_content,
+        #     from_email=settings.EMAIL_HOST_USER,
+        #     to=[request.user.email],
+        # )
+        # email.attach_alternative(html_content, "text/html")
+        # print("Sending email...")
+        # email.send()
+        # print("Email sent.")
+
+        return Response({'status': 'success',"message": "Your Order is placed successfully","link":"orders/history/"} ,status=status.HTTP_200_OK)
     except Exception as e:
         # Handle generic exceptions
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

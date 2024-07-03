@@ -13,8 +13,7 @@ class OrderPlaced(BaseModel):
 
     def save(self, *args, **kwargs):
          if not self.order_number:
-            last_order = OrderPlaced.objects.order_by('-created_at').first()
-
+            last_order = OrderPlaced.objects.order_by('-order_number').first()
             last_order_number = int(last_order.order_number) if last_order else 20099
             print("Fuck",last_order_number)
             self.order_number = str(last_order_number + 1)
@@ -23,6 +22,7 @@ class OrderPlaced(BaseModel):
 
     def __str__(self):
         return f"Order {self.order_number} by {self.customer.username}"
+    @staticmethod
     def CalcuatePayments(obj):
         amount_paid=0
         amount_pending=0
@@ -32,4 +32,17 @@ class OrderPlaced(BaseModel):
             else:
                 amount_pending+=i.total_amount
         return amount_paid,amount_pending
+
+    def calculateDiscount(self,car):
+        # fix 250 for shipping
+        # calculte if votcher is applied
+        print("Total:",car.get_cart_total())
+        if car.coupon:
+          return self.total_amount-(car.get_cart_total()+250)+car.coupon.discount_price
+        else:
+          return self.total_amount - (car.get_cart_total() + 250)
+
+
+
+
 

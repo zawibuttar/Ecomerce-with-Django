@@ -32,12 +32,8 @@ class ShoppingCart(BaseModel):
 
     def get_cart_total(self):
        cart_items = self.addtocart.all()
-
        price = []
        for cart_item in cart_items:
-         print(cart_item.product.price)
-         print(cart_item.quantity)
-         print(cart_item.item_price)
          price.append(cart_item.item_price*cart_item.quantity)
 
        if self.coupon:

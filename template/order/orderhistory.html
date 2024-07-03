@@ -26,13 +26,13 @@
                                         </div>
                                         <div class="col-md-3 col-lg-3 col-xl-3">
                                             {% if order.Is_order_delivered %}
-                                            <h6 class="fw-bold text-success">Delivered</h6>
+                                            <span class="badge badge-success" style="font-size: 1.2em;">Delivered</span>
                                             {% else %}
-                                            <h6 class="fw-bold text-danger">In-Process</h6>
+                                            <span class="badge badge-danger" style="font-size: 1.2em;">In-Process</span>
                                             {% endif %}
                                         </div>
                                         <div class="col-md-3 col-lg-3 col-xl-3">
-                                            <button type="button" class="btn btn-primary">View Details</button>
+                                            <a class="btn btn-primary" href="{% url 'view_order_details' order.order.uid %}">View Details </a>
                                         </div>
                                     </div>
                                     {% endfor %}

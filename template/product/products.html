@@ -217,7 +217,9 @@
 
           displayMessage(data.message, "success");
           setTimeout(() => {
-      window.location.reload();
+      
+      window.location.href = `http://127.0.0.1:8000/${data.link}`;
+
     },1000);
 
 
@@ -264,6 +266,8 @@
           displayMessage(data.message, "success");
           setTimeout(() => {
       window.location.reload();
+
+
     },1000);
 
 
